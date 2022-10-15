@@ -1,3 +1,6 @@
-::Node, impl()  {}
-::BST, 
+::Node, impl(new_node)  {::left, ::right, ::data}
+::BST, impl() {}
+
+I think this is how I want constructors to work, idk
+::@new_node, (data) => Node{[left] = [0], [right] = [0], [data] = [0]}
 
