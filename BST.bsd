@@ -1,6 +1,10 @@
-::Node, impl(new_node)  {::left, ::right, ::data}
-::BST, impl() {}
+::Node, impl(new_node)  {::left, ::right, ::data,}
+::BST, impl(new_BST) {::head,}
 
 I think this is how I want constructors to work, idk
 ::@new_node, (data) => Node{[left] = [0], [right] = [0], [data] = [data]}
 
+::@new_BST, () => BST{}
+
+I'd like to be able to overide functions like this which should be doable with LOOKAHEAD
+::@new_BST, (data) => BST{[head] = Node.new_node(data)}
