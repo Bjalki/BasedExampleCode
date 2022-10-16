@@ -2,5 +2,5 @@
 ::BST, impl() {}
 
 I think this is how I want constructors to work, idk
-::@new_node, (data) => Node{[left] = [0], [right] = [0], [data] = [0]}
+::@new_node, (data) => Node{[left] = [0], [right] = [0], [data] = [data]}
 
