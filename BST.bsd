@@ -1,10 +1,16 @@
 ::Node, impl(new_node)  {::left, ::right, ::data,}
 ::BST, impl(new_BST) {::head,}
 
+
+
 I think this is how I want constructors to work, idk
 ::@new_node, (data) => Node{[left] = [0], [right] = [0], [data] = [data]}
+
+::@add_node, (self, data) => {(if (<= ([data] [self][data]) (if (!=([self][left])([0])) ([self][left].add_node([self][left], data))  )(else _assign_new_node(self, true, data)) )) (else if( !=([self][right] [0]) ([self][right].add_node([self][right], data)) else (_assign_new_node(self, false, data)))}
+    ::_assign_new_node(node, is_left, data) => { (if (is_left) ([node][left] = Node.new_node(data))) (else ([node][right] = Node.new_node(data))} 
 
 ::@new_BST, () => BST{}
 
 I'd like to be able to overide functions like this which should be doable with LOOKAHEAD
 ::@new_BST, (data) => BST{[head] = Node.new_node(data)}
+::@add_BST, (self, data) => {[self][head].add_node(data)}
