@@ -1,4 +1,4 @@
-::Node, impl(new_node)  {::left, ::right, ::data,}
+::Node, impl(new_node, add_node, remove_node, get_node)  {::left, ::right, ::data,}
 ::BST, impl(new_BST) {::head,}
 
 
@@ -8,6 +8,16 @@ I think this is how I want constructors to work, idk
 
 ::@add_node, (self, data) => {(if (<= ([data] [self][data]) (if (!=([self][left])([0])) ([self][left].add_node([self][left], data))  )(else _assign_new_node(self, true, data)) )) (else if( !=([self][right] [0]) ([self][right].add_node([self][right], data)) else (_assign_new_node(self, false, data)))}
     ::_assign_new_node(node, is_left, data) => { (if (is_left) ([node][left] = Node.new_node(data))) (else ([node][right] = Node.new_node(data))} 
+
+
+::@remove_node, (self, data) => {}
+    ::_remove_case_1, () => {}
+    ::_remove_case_2, () => {}
+    ::_remove_case_3, () => {}
+
+
+::@get_node, (self, data) => ::found, { (if(<= [data] [self][data])(found = self)) (else if ( <= [data] [self][data]) (if ( != ([self][left]) ([0])) (found = self.get_node([self][left], data))) (else(found = [0])) ) else ((if ( != ([self][right]) ([0])) (found = self.get_node([self][right], data))) (else(found = [0])))    }
+
 
 ::@new_BST, () => BST{}
 
