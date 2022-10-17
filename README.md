@@ -5,7 +5,7 @@
 ## register --> ::{label}?, expression
 * *saves evaluated expression at the current register index/label*
 
-## expression --> label | literal | block | access | conditional | assignment | function | iterator | built-in function | derived expression
+## expression --> label | literal | block | access | conditional | assignment | function | eval | iterator | built-in function | derived expression
 
 ## label --> identifier
 * *label evaluates to the location of that label (env-layer, index)*
@@ -40,6 +40,9 @@
 
 ## function --> "("{label}?{,label}*")" => expression
 * *built like a lambda function*
+
+## eval --> expression"("{expression}?{,expression}*")"
+* *the first expression should evaluate to a function object. the number of inner expressions should match the number of params in the function. this should evaluate the function object.*
 
 ## iterator --> "|"{expression | "("expression, expression")"} : function "|"
 * *if one exp:*
