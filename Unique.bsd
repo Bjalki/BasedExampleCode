@@ -1,5 +1,5 @@
-:: n, (read)
-:: vals, |[n] : () => (read)|
+:: n, read()
+:: vals, |[n] : () => read()|
 :: set, store{}
-|[vals] : (val) => (if !(contains [set] [val]) (add [set] [val]))|
-|[set] : (val) => (write [val])|
+|[vals] : (val) => !(contains [set] [val]) ? add([set] [val]) : [0]|
+|[set] : (val) => write([val])|
