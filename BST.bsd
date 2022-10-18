@@ -1,26 +1,32 @@
-::#add_node, (self, data) => run{lore:: <=(data [self][data]),
+::$add_node, (self, data) => run{lore:: (data <=[self][data]),
     ([lore]? ::child [self][left] : ::child [self][right]),
-    (!= ([0] [child])? [self][add_node]([child], [data]) : (::new node(data),
+    ( ([0] != [child])? [self][add_node]([child], [data]) : (::new [Node](data),
     [new][parent] = [self],
     [lore]? [self][left] = new : [self][right] = new))}->[Node][add_node]
 
-::#contains_node, (self, data) =>  run{contained:: or(==([self] [0])) ? [self] :  <=(data, [self][data]) ? [self][contains_node([self][left] [data]) : [self][contains_node([self][right] [data])} -> [Node][contains_node]
-        //::#delete_node, (self, data) => run{ } ->[Node][delete_node]
-::_transplant, (u, v) => run{ ==([u] [u][parent][left])? [u][p][left] = [v] : [u][p][right] = [v], !=(v [0])? [v][parent] = [u][parent] }
+::$contains_node, (self, data) =>  run{contained:: or(([self] == [0])) ? [self] : ([data] <= [self][data]) ? [self][contains_node([self][left] [data]) : [self][contains_node([self][right] [data])} -> [Node][contains_node]
+::_transplant, (u, v) => run{ ([u] == [u][parent][left])? [u][p][left] = [v] : [u][p][right] = [v], ([v] != [0])? [v][parent] = [u][parent] }
 
-
-::#minimum, (x) => run{!=([x][left] [0])? min:: [BST][minimum]([x][left]) : min::[x] }
-::#transplant, (self, u, v) => run{!=([u][parent] [0])? [self][root] = [v] : [self][root][_transplant](u, v)}->[BST][transplant]
-::#delete, (self, z) => run{!=( [z][left] [0]) ? [self][transplant]([self], [z], [z][right]) : (==([z] [0]) ? [self][transplant]([self], [z], [z][right])) : y::[self][minimum]([z][right]),
-                                                                                                                                                                (!=([y][p] [z]))? ([self][transplant]([y] [y][right]), 
-                                                                                                                                                                [y][right] = [z][right],
-                                                                                                                                                                [y][right][parent] = [y]
-                                                                                                                                                                ): (
-                                                                                                                                                                    [self][transplant](self, [y], [y][right]),
-                                                                                                                                                                    [y][left] = [z][left],
-                                                                                                                                                                    [y][left][parent] = [y]
-                                                                                                                                                                )
-                                                                                                                                                                } -> [BST][delete]
+::$minimum, (x) => run{([x][left] != [0])? min:: [BST][minimum]([x][left]) : min::[x] }
+::$transplant, (self, u, v) => run{([u][parent] != [0])? [self][root] = [v] : [self][root][_transplant](u, v)}->[BST][transplant]
+::$delete, (self, z) => run{( [z][left] != [0]) ? [self][transplant]([self], [z], [z][right]) : (([z] == [0]) ? [self][transplant]([self], [z], [z][right])) : y::[self][minimum]([z][right]),
+            (([y][p] != [z]))? ([self][transplant]([y] [y][right]), 
+            [y][right] = [z][right],
+            [y][right][parent] = [y]
+            ): (
+            [self][transplant](self, [y], [y][right]),
+                 [y][left] = [z][left],
+                [y][left][parent] = [y]
+            )
+} -> [BST][delete]
+::$contains, (self key) => store{[self][root][contains_node]([self][root] data)} ->[BST][contains]
+::$add, (self key) => run{[self][root]==[0]?[self][root]=[Node](data):[BST][root][add_node]([BST][root] [data])}->[BST][add]
 
 ::Node, impl (data) => {left::[0] right::[0] parent::[0] key::[data] add_node::[0]}
 ::BST, impl (data) => {root::[0] add::[0] contains::[0] delete::[0] transplant::[0] minimum::[0]}
+
+::tree, BST()
+::is_running, #t
+::nums, store{}
+::, |while is_running : () => num::read(), (num != -1) ? add([nums] [num])|
+::, |[nums] : (a b) => (a == 0)? ([tree][delete](b),  ([tree][contains](b)==#t) ? write(1) : write(0))) : (a == 1) ? ([tree][add](b)) : (  ([tree][contains](b)==#t) ? write(1) : write(0))  |
