@@ -32,10 +32,10 @@
 * *if two exps: both should eval to int, and gets value at loc(int1, int2)*
 * *optional recursive access only works if first access evaluates to a saved env (from block), then performs an access from that location*
 
-## conditional --> expression ? expression : expression
+## conditional --> "(" expression ? expression : expression ")"
 * *structured like ternary operator*
 
-## assignment --> expression --> expression
+## assignment --> "(" expression --> expression ")"
 * *first expression is the new value which is put in the location evaluated from the second expression (the second expression should eval to a location)*
 
 ## function --> "("{label}?{,label}*")" => expression
