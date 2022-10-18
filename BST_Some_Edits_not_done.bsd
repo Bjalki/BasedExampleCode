@@ -1,0 +1,30 @@
+::add_node, (self, data) => run{lore:: (data <=[self][data]),
+    child:: ([lore]? [self][left] : [self][right]),
+    (([child] != [0])? [self][add_node]([child], [data]) : set([self], ([lore]? left : right), [Node]([data], [self])))}
+
+::contains_node, (self, data) =>  run{contained:: (([self] == [0]) ? [self] : (([data] <= [self][data]) ? [self][contains_node([self][left] [data]) : [self][contains_node([self][right] [data])))}
+::_transplant, (u, v) => run{ ([u] == [u][parent][left])? [u][p][left] = [v] : [u][p][right] = [v], ([v] != [0])? [v][parent] = [u][parent] }
+
+::minimum, (x) => run{([x][left] != [0])? min:: [BST][minimum]([x][left]) : min::[x] }
+::transplant, (self, u, v) => run{([u][parent] != [0])? [self][root] = [v] : [self][root][_transplant](u, v)}
+::delete, (self, z) => run{( [z][left] != [0]) ? [self][transplant]([self], [z], [z][right]) : (([z] == [0]) ? [self][transplant]([self], [z], [z][right])) : y::[self][minimum]([z][right]),
+            (([y][p] != [z]))? ([self][transplant]([y] [y][right]), 
+            [y][right] = [z][right],
+            [y][right][parent] = [y]
+            ): (
+            [self][transplant](self, [y], [y][right]),
+                 [y][left] = [z][left],
+                [y][left][parent] = [y]
+            )
+}
+::contains, (self key) => store{[self][root][contains_node]([self][root] data)}
+::add, (self key) => run{[self][root]==[0]?[self][root]=[Node](data):[BST][root][add_node]([BST][root] [data])}
+
+::Node, (data, parent) => {left::[0], right::[0], parent::parent, key::[data], add_node::add_node, contains_node::contains_node}
+::BST, (data) => {root::[0] add::add contains::contains delete::delete transplant::transplant minimum::[0]}
+
+::tree, BST()
+::is_running, #t
+::nums, store{}
+::, |while is_running : () => num::read(), (num != -1) ? add([nums] [num])|
+::, |[nums] : (a b) => (a == 0)? ([tree][delete](b),  ([tree][contains](b)==#t) ? write(1) : write(0))) : (a == 1) ? ([tree][add](b)) : (  ([tree][contains](b)==#t) ? write(1) : write(0))  |
